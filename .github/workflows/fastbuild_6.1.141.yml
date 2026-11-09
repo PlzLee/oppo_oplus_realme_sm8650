@@ -312,6 +312,12 @@ jobs:
             patch -p1 -F 3 < 10_enable_susfs_for_ksu.patch || true
           fi
           
+      - name: 修复 SUSFS 与 BakaSU 新 selinux_hide 模型兼容
+        run: |
+          cd kernel_workspace/common
+          curl -fsSL -o /tmp/apply_selinux_new_model.sh https://raw.githubusercontent.com/LingLuo17/OnePlus_KernelSU_SUSFS/main/scripts/susfs_compat/apply_selinux_new_model.sh
+          bash /tmp/apply_selinux_new_model.sh ../KernelSU
+
       - name: 应用lz4 1.10.0 & zstd 1.5.7补丁
         if: inputs.lz4_enable
         run: |
