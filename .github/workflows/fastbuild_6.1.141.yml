@@ -559,6 +559,15 @@ jobs:
             done
           fi
            
+      - name: 确保 pahole 可用（BTF 生成依赖）
+        run: |
+          if ! command -v pahole >/dev/null 2>&1; then
+            echo "runner 未自带 pahole，安装 dwarves..."
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends dwarves
+          fi
+          pahole --version
+
       - name: 构建内核
         run: |
           WORKDIR="$(pwd)"
